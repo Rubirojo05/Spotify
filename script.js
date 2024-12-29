@@ -9,7 +9,7 @@ URL DE LA TAREA: https://rubennrouge.tech/Spotify
 $(document).ready(function () {
 
     const getUrlParameter = (sParam) => {
-        let sPageURL = window.location.search.substring(1),////substring will take everything after the https link and split the #/&
+        let sPageURL = window.location.search.substring(1),
             sURLVariables = sPageURL != undefined && sPageURL.length > 0 ? sPageURL.split('#') : [],
             sParameterName,
             i;
@@ -22,7 +22,6 @@ $(document).ready(function () {
             }
         }
     };
-
 
     const accessToken = getUrlParameter('access_token');
 
@@ -50,15 +49,25 @@ $(document).ready(function () {
                 console.log(response);
                 let track = response.tracks.items[0];
                 console.log(track);
-                $('#resultado').html(`
-                    <h2>Cancion: ${track.name}</h2>
-                    <img src="${track.album.images[0].url}" alt="${track.name}">
-                    <p>Artista: ${track.artists[0].name}</p>
-                    <p>Álbum: ${track.album.name}</p>
-                    <audio controls>
-                        <source src="${track.preview_url}" type="audio/mpeg">
-                    </audio>
-                `);
+                if (track.preview_url) {
+                    $('#resultado').html(`
+                        <h2>Cancion: ${track.name}</h2>
+                        <img src="${track.album.images[0].url}" alt="${track.name}">
+                        <p>Artista: ${track.artists[0].name}</p>
+                        <p>Álbum: ${track.album.name}</p>
+                        <audio controls>
+                            <source src="${track.preview_url}" type="audio/mpeg">
+                        </audio>
+                    `);
+                } else {
+                    $('#resultado').html(`
+                        <h2>Cancion: ${track.name}</h2>
+                        <img src="${track.album.images[0].url}" alt="${track.name}">
+                        <p>Artista: ${track.artists[0].name}</p>
+                        <p>Álbum: ${track.album.name}</p>
+                        <p>Vista previa no disponible</p>
+                    `);
+                }
             }
         });
     });
