@@ -43,15 +43,26 @@ $(document).ready(function () {
                 console.log(response);
                 let track = response.tracks.items[0];
                 console.log(track);
-                $('#resultado').html(`
-                    <h2>Cancion: ${track.name}</h2>
-                    <img src="${track.album.images[0].url}" alt="${track.name}">
-                    <p>Artista: ${track.artists[0].name}</p>
-                    <p>Álbum: ${track.album.name}</p>
-                    <audio controls>
-                        <source src="${track.preview_url}" type="audio/mpeg">
-                    </audio>
-                `);
+                let previewUrl = track.preview_url;
+                if (previewUrl) {
+                    $('#resultado').html(`
+                        <h2>Cancion: ${track.name}</h2>
+                        <img src="${track.album.images[0].url}" alt="${track.name}">
+                        <p>Artista: ${track.artists[0].name}</p>
+                        <p>Álbum: ${track.album.name}</p>
+                        <audio controls>
+                            <source src="${previewUrl}" type="audio/mpeg">
+                        </audio>
+                    `);
+                } else {
+                    $('#resultado').html(`
+                        <h2>Cancion: ${track.name}</h2>
+                        <img src="${track.album.images[0].url}" alt="${track.name}">
+                        <p>Artista: ${track.artists[0].name}</p>
+                        <p>Álbum: ${track.album.name}</p>
+                        <p>Vista previa no disponible</p>
+                    `);
+                }
             }
         });
     });
